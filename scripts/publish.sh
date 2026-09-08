@@ -50,15 +50,27 @@ for path in sys.argv[1:]:
     name = os.path.basename(path)
     project_of(name)  # refuses here rather than after copying
     target = os.path.join(PACKAGES, name)
-    # Refused rather than overwritten. A published version is something people
-    # have already resolved and pinned; replacing its bytes in place means two
-    # machines can hold different code under one version and neither is wrong.
+    # A published version keeps the bytes it was published with. People have
+    # already resolved and pinned it, and replacing it in place means two
+    # machines hold different code under one version and neither is wrong.
+    #
+    # Kept rather than refused, because a release job has to be re-runnable and
+    # a wheel is not byte-reproducible unless it is built to be: the archive
+    # carries timestamps, so a rebuild of the very same commit differs from what
+    # is on the index. Failing here would mean no release could ever be re-run,
+    # and the failure would look like tampering when it is only a second build.
+    # Publishing genuinely changed code needs a new version number, which is the
+    # rule PyPI itself enforces.
     if os.path.exists(target):
         with open(target, "rb") as a, open(path, "rb") as b:
-            if a.read() != b.read():
-                raise SystemExit(
-                    f"refusing to replace {target} with different bytes; "
-                    "publish a new version instead")
+            same = a.read() == b.read()
+        if same:
+            print(f"  {name} is already published, byte for byte")
+        else:
+            print(f"  {name} is already published; keeping the published bytes")
+            print("  (a rebuild differs by its timestamps; publish a new "
+                  "version to change the code)")
+        continue
     shutil.copyfile(path, target)
     print(f"  added {name}")
 
