@@ -1,0 +1,116 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>AceMQ — Python index</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="AceMQ's static Python package index (PEP 503): wheels and sdists served without an account or a credential.">
+<style>
+  :root { color-scheme: light dark;
+    --fg:#191919; --bg:#fff; --muted:#5f5f5f; --line:#e5e5e5;
+    --accent:#b4451f; --card:#fbfbfa; --code-bg:#f6f6f4; }
+  @media (prefers-color-scheme: dark) {
+    :root { --fg:#e9e9e9; --bg:#151515; --muted:#9c9c9c; --line:#2c2c2c;
+      --accent:#ff8a5c; --card:#1c1c1c; --code-bg:#1f1f1f; }
+  }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg);
+    font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; }
+  main { max-width:52rem; margin:0 auto; padding:4rem 1.25rem 5rem; }
+  header { margin-bottom:2.5rem; }
+  .logo { height:52px; width:auto; display:block; margin:0 0 1.1rem; }
+  @media (prefers-color-scheme: dark) { .logo { filter: invert(1) brightness(1.15); } }
+  h1 { font-size:1.9rem; margin:0 0 .4rem; letter-spacing:-.03em; }
+  .tagline { color:var(--muted); font-size:1.05rem; margin:0; max-width:38rem; }
+  h2 { font-size:.8rem; text-transform:uppercase; letter-spacing:.09em;
+    color:var(--muted); margin:3rem 0 1rem; font-weight:600; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px;
+    padding:1.4rem 1.5rem; margin-bottom:1rem; }
+  .card p { margin:0; color:var(--muted); font-size:.95rem; }
+  .card p + p { margin-top:.7rem; }
+  pre { background:var(--code-bg); border:1px solid var(--line); border-radius:8px;
+    padding:1rem 1.15rem; overflow-x:auto; font-size:.83rem; line-height:1.5; }
+  code { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  table { border-collapse:collapse; width:100%; font-size:.92rem; }
+  th, td { text-align:left; padding:.55rem .7rem; border-bottom:1px solid var(--line); }
+  th { font-size:.75rem; text-transform:uppercase; letter-spacing:.06em; color:var(--muted); }
+  td.no { color:var(--muted); }
+  a { color:var(--accent); }
+  footer { border-top:1px solid var(--line); margin-top:3.5rem; padding-top:1.25rem;
+    color:var(--muted); font-size:.85rem; }
+</style>
+<main>
+  <header>
+    <img class="logo" src="acemq.png" alt="AceMQ">
+    <h1>Python index</h1>
+    <p class="tagline">Wheels and sdists served as static files, without an
+       account or a credential.</p>
+  </header>
+
+  <!-- projects:start -- written by scripts/publish.sh; do not edit by hand -->
+  <table>
+    <tr><th>Project</th><th>Versions</th></tr>
+    <tr><td colspan="2" class="no">Nothing published yet.</td></tr>
+  </table>
+  <!-- projects:end -->
+
+  <h2>Installing from it</h2>
+
+  <pre><code>pip install acemq-amqp --index-url https://acemq.org/pypi/simple/</code></pre>
+
+  <div class="card">
+    <p>To keep PyPI for everything else and take only AceMQ from here, use
+       <code>--extra-index-url</code> instead. Be aware of what that means:
+       pip merges the two indexes and picks the highest version it finds under
+       a name, whichever index it came from. Naming this index with
+       <code>--index-url</code> and pinning the version is the arrangement with
+       no surprises in it.</p>
+  </div>
+
+  <p>In a requirements file:</p>
+
+  <pre><code>--extra-index-url https://acemq.org/pypi/simple/
+acemq-amqp==0.2.0</code></pre>
+
+  <h2>Why this exists</h2>
+
+  <div class="card">
+    <p>The AceMQ Python library is not on PyPI yet. A project name there is
+       permanent and a released version cannot be re-uploaded — deleting it does
+       not free the filename — so the library is served from here until that
+       decision is one worth making irreversible.</p>
+    <p>Nothing about the package changes when it moves. The same
+       <code>pip install acemq-amqp</code> works from either index.</p>
+  </div>
+
+  <h2>What a static index can and cannot do</h2>
+
+  <table>
+    <tr><th>Capability</th><th>Here</th></tr>
+    <tr><td>Install and resolve dependencies</td><td>yes</td></tr>
+    <tr><td>Version listing</td><td>yes</td></tr>
+    <tr><td>Hash checking</td><td>yes — every link carries its sha256</td></tr>
+    <tr><td>Search</td><td class="no">no — there is no server to ask</td></tr>
+    <tr><td>Yank</td><td class="no">no — delete the file and re-index</td></tr>
+    <tr><td>Ownership and signing</td><td class="no">no — the repository is the record</td></tr>
+  </table>
+
+  <div class="card">
+    <p>The index is PEP 503: a page per project listing its files, each link
+       carrying a <code>#sha256=</code> fragment that pip verifies before it
+       installs. That fragment is what makes the download trustworthy, so it is
+       part of the link rather than a checksum file beside it.</p>
+  </div>
+
+  <h2>Elsewhere</h2>
+
+  <div class="card">
+    <p><a href="https://acemq.org/maven/">Maven repository</a> for the JVM
+       libraries, <a href="https://acemq.org/nuget/">NuGet feed</a> for .NET, and
+       <a href="https://acemq.org/gems/">gem feed</a> for Ruby.
+       Go needs no feed: the module proxy serves it from the tags.</p>
+  </div>
+
+  <footer>
+    Apache-2.0. RabbitMQ and Python are trademarks of their respective owners;
+    this project is not affiliated with either.
+  </footer>
+</main>
